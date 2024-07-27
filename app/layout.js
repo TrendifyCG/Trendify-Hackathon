@@ -21,9 +21,9 @@ export default function RootLayout({ children }) {
         className={`${josefin.className} bg-white text-primary-100 min-h-screen flex flex-col`}
       >
         <Header />
-        <div className="flex-1 px-8 py-12 grid">
-          <main className="max-w-7xl mx-auto w-full">{children}</main>
-        </div>
+        <main className="flex-1 py-12 grid">
+          <div className="max-w-7xl mx-auto w-full">{children}</div>
+        </main>
         <ProgressWrap />
       </body>
     </html>
