@@ -8,9 +8,29 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "primary-purple":
+          "linear-gradient(to right, rgba(135, 80, 247, 1) 0%, rgba(42, 20, 84, 1) 100%)",
+      },
+      colors: {
+        primary: {
+          themeSecondary: "#2a1454",
+          themePrimary: "#8750f7",
+        },
+      },
+      keyframes: {
+        "fade-in-up": {
+          "0%": {
+            opacity: 0,
+            transform: "translate3d(0, 100%, 0)",
+          },
+          "100%": {
+            opacity: 1,
+            transform: "translate3d(0, 0, 0)",
+          },
+        },
+      },
+      animation: {
+        fadeinup: "fade-in-up 1s ease-in-out 0.25s 1",
       },
     },
   },
