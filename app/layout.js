@@ -3,6 +3,7 @@ import "@/app/_styles/globals.css";
 
 import { Josefin_Sans } from "next/font/google";
 import ProgressWrap from "./_components/ProgressWrap";
+import Analytics from "./_components/Analytics";
 
 const josefin = Josefin_Sans({
   subsets: ["latin"],
@@ -20,6 +21,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${josefin.className} bg-white flex flex-col min-h-screen`}
       >
+        <Analytics />
         <Header />
         <main className="flex-1 py-12 grid w-full">
           <div className="container mx-auto">{children}</div>
