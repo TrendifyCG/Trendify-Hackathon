@@ -18,12 +18,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${josefin.className} bg-white text-primary-100 min-h-screen flex flex-col`}
+        className={`${josefin.className} bg-white flex flex-col min-h-screen`}
       >
         <Header />
-        <main className="flex-1 py-12 grid">
-          <div className="max-w-7xl mx-auto w-full">{children}</div>
+        <main className="flex-1 py-12 grid w-full">
+          <div className="container mx-auto">{children}</div>
         </main>
+        <footer className="w-full py-4 text-white bg-primary-purple text-center">
+          Copyright © 2024 The Win Team
+        </footer>
         <ProgressWrap />
       </body>
     </html>

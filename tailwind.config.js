@@ -9,7 +9,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         "primary-purple":
-          "linear-gradient(to right, rgba(135, 80, 247, 1) 0%, rgba(42, 20, 84, 1) 100%)",
+          "linear-gradient(to right, #1f2937 0%, rgba(42, 20, 84, 1) 100%)",
       },
       colors: {
         primary: {
