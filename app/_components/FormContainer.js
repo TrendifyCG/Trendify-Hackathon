@@ -136,7 +136,7 @@ function FormContainer() {
               </div>
               <div className="form_group w-64">
                 <label className="sub_title" htmlFor="maximumLength">
-                  Maximum Length
+                  Maximum Length (Max: 1000)
                 </label>
                 <input
                   placeholder="300"
