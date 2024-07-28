@@ -71,7 +71,7 @@ export default function Home() {
           />
           <Card
             title="Add Hashtags"
-            description="Include relevant hashtags separated by commas. This helps in tailoring the content to specific trends or topics."
+            description="Include relevant hashtags separated by spaces. This helps in tailoring the content to specific trends or topics."
           />
           <Card
             title="Select Niches"

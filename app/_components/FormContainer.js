@@ -7,15 +7,79 @@ import StreamingContainer from "./StreamingContainer";
 
 function FormContainer() {
   const interests = FormInterests();
-  const [selectedInterests, setSelectedInterests] = useState([]);
+  const [selectedNiches, setSelectedNiches] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [reset, setReset] = useState(false);
+  const [showStreaming, setShowStreaming] = useState(false);
+
+  const [briefing, setBriefing] = useState("");
+  const [hashtags, setHashtags] = useState("");
+  const [maximumLength, setMaximumLength] = useState("");
+  const [generatedContent, setGeneratedContent] = useState("");
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!briefing) {
+      newErrors.briefing = "Briefing is required";
+    }
+    if (!maximumLength || maximumLength < 50 || maximumLength > 1000) {
+      newErrors.maximumLength = "Please enter a valid number from 50 - 1000";
+    }
+    if (selectedNiches.length === 0) {
+      newErrors.selectedNiches = "At least one niche must be selected";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleGenerate = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsLoading(true);
+    setGeneratedContent("");
+    setReset(true);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/generate`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            briefing,
+            maximumLength,
+            hashtags,
+            niches: selectedNiches,
+          }),
+        }
+      );
+      const data = await response.json();
+      setGeneratedContent(data.content);
+      setIsLoading(false);
+      setShowStreaming(true);
+      setReset(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!generatedContent) {
+      setShowStreaming(false);
+    }
+  }, [generatedContent]);
 
   const handleCheckboxChange = (event) => {
     event.preventDefault();
 
     const value = event.target.id;
-    setSelectedInterests((prevSelectedInterests) =>
+    setSelectedNiches((prevSelectedInterests) =>
       prevSelectedInterests.includes(value)
         ? prevSelectedInterests.filter((interest) => interest !== value)
         : [...prevSelectedInterests, value]
@@ -41,7 +105,7 @@ function FormContainer() {
         <div className="form-container w-full">
           <div className="form_area">
             <p className="title">What do you want to write?</p>
-            <form action="" className="space-y-8 w-full lg:w-auto">
+            <div className="space-y-8 w-full lg:w-auto">
               <div className="form_group">
                 <label className="sub_title" htmlFor="brief">
                   Content Brief
@@ -51,20 +115,42 @@ function FormContainer() {
                   name="brief"
                   className="form_style"
                   type="text"
+                  onChange={(e) => setBriefing(e.target.value)}
                   required
                 />
+                {errors.briefing && <p className="error">{errors.briefing}</p>}
               </div>
-              <div className="form_group">
+
+              <div className="form_group flex-grow">
                 <label className="sub_title" htmlFor="hashtags">
                   HashTags (Optional)
                 </label>
                 <input
-                  placeholder="Separate each hashtag with comma"
+                  placeholder="Separate each hashtag with a space"
                   id="hashtags"
                   name="hashtags"
                   className="form_style"
                   type="text"
+                  onChange={(e) => setHashtags(e.target.value)}
                 />
+              </div>
+              <div className="form_group w-64">
+                <label className="sub_title" htmlFor="maximumLength">
+                  Maximum Length
+                </label>
+                <input
+                  placeholder="300"
+                  min={50}
+                  max={1000}
+                  id="maximumLength"
+                  name="maximumLength"
+                  className="form_style"
+                  type="number"
+                  onChange={(e) => setMaximumLength(e.target.value)}
+                />
+                {errors.maximumLength && (
+                  <p className="error">{errors.maximumLength}</p>
+                )}
               </div>
               <div className="form_group">
                 <div className="flex space-x-2 items-center mb-4">
@@ -93,6 +179,11 @@ function FormContainer() {
                       </span>
                     </div>
                   </button>
+                  {errors.selectedNiches && (
+                    <p className="text-red-500 font-bold">
+                      {errors.selectedNiches}
+                    </p>
+                  )}
                 </div>
 
                 <div
@@ -114,7 +205,7 @@ function FormContainer() {
                       key={interest.value}
                       id={interest.value}
                       className={`interest-button ${
-                        selectedInterests.includes(interest.value)
+                        selectedNiches.includes(interest.value)
                           ? "selected"
                           : ""
                       }`}
@@ -126,11 +217,24 @@ function FormContainer() {
                 </div>
               </div>
               <div>
-                <GenerateButton>GENERATE CONTENT</GenerateButton>
+                <GenerateButton
+                  handleGenerate={handleGenerate}
+                  isLoading={isLoading}
+                >
+                  GENERATE CONTENT
+                </GenerateButton>
               </div>
-            </form>
-            <div id="streaming" className="w-full mt-16">
-              <StreamingContainer />
+            </div>
+            <div
+              id="streaming"
+              className={`w-full mt-16 ${
+                showStreaming ? "slide-down" : "hidden"
+              }`}
+            >
+              <StreamingContainer
+                initialContent={generatedContent}
+                reset={reset}
+              />
             </div>
           </div>
         </div>
