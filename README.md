@@ -7,4 +7,6 @@ Trendify is an AI-powered content creation tool designed to help users generate 
 - **AI-Powered Inspiration:** Get a constant stream of fresh, trending ideas tailored to your niche.
 - **Human-like Content Generation:** Create natural, engaging content that resonates with your audience.
 - **Efficient Content Creation:** Produce high-quality posts and scripts in minutes.
-- **Trend Awareness:** Stay updated w
+- **Trend Awareness:** Stay updated with real-time insights into what’s trending in your industry.
+
+
