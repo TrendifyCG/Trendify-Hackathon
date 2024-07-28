@@ -45,7 +45,7 @@ function FormContainer() {
     setReset(true);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SITE_URL}/api/generate`,
+        `/api/generate`,
         {
           method: "POST",
           headers: {

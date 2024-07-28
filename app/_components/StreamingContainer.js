@@ -18,9 +18,7 @@ function StreamingContainer({ initialContent, reset }) {
 
   useEffect(() => {
     const encodedBrief = encodeURIComponent(JSON.stringify(initialContent));
-    const eventSource = new EventSource(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/api/stream?brief=${encodedBrief}`
-    );
+    const eventSource = new EventSource(`/api/stream?brief=${encodedBrief}`);
 
     eventSource.onmessage = (event) => {
       if (event.data === "[DONE]") {
