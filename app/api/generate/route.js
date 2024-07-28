@@ -1,5 +1,4 @@
 import generateContent from "@/app/_lib/generateContent";
-import { StreamingTextResponse } from "ai";
 
 export const runtime = "edge";
 
