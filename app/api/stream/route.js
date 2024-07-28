@@ -22,7 +22,7 @@ async function* streamData(briefing) {
 
   while (index < briefing.length) {
     yield encoder.encode(`data: ${JSON.stringify(briefing[index++])}\n\n`);
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 50));
   }
 
   yield encoder.encode("data: [DONE]\n\n");
